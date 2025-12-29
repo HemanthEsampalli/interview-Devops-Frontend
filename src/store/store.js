@@ -8,6 +8,9 @@ import clientReducer from "./clientSlice";
 import userManagementReducer from "./userManagementSlice";
 import userListsReducer from "./userListsSlice";
 import hrEmployeeReducer from "./hrEmployeeSlice";
+import projectReducer from "./projectSlice";
+import salaryReducer from "./salarySlice";
+import bankReducer from "./bankSlice";
 
 
 import storage from "redux-persist/lib/storage";
@@ -40,6 +43,9 @@ const rootReducer = combineReducers({
   userManagement: userManagementReducer,
   userLists: userListsReducer,
   hrEmployee: hrEmployeeReducer,
+  project: projectReducer,
+  salary: salaryReducer,
+  bank: bankReducer,
 });
 
 

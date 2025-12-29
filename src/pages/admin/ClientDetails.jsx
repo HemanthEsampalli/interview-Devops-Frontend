@@ -1,10 +1,11 @@
-import { useParams, NavLink } from "react-router-dom";
+//src/pages/admin/ClientDetails.jsx
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ClientActionTabs from "./ClientActionTabs";
 
 export default function ClientDetails() {
   const { clientId } = useParams();
-
+  const navigate = useNavigate();
   const client = useSelector((s) =>
     s.userLists.clients.find((c) => String(c.id) === String(clientId))
   );
@@ -21,6 +22,16 @@ export default function ClientDetails() {
     <div className="space-y-8">
       {/* ================= ACTION NAV BAR ================= */}
       <ClientActionTabs />
+
+      {/* ================= BACK BUTTON ================= */}
+      <div className="px-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="text-sm text-blue-600 hover:underline"
+        >
+          ← Back
+        </button>
+      </div>
 
       {/* ================= HEADER ================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">

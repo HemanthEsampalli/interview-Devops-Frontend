@@ -1,3 +1,4 @@
+// App.jsx
 import { Routes, Route } from "react-router-dom";
 
 // Public
@@ -14,13 +15,22 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserManagement from "./pages/admin/UserManagement";
 import UserLists from "./pages/admin/UserLists";
 import ClientDetails from "./pages/admin/ClientDetails";
+import EmployeeDetails from "./pages/admin/EmployeeDetails";
+import HrDetails from "./pages/admin/HrDetails";
+import ManagerDetails from "./pages/admin/ManagerDetails";
+import ClientProjectList from "./pages/admin/ClientProjectList";
+import ProjectDetails from "./pages/admin/ProjectDetails";
+import AddEmployeeBankDetails from "./pages/admin/AddEmployeeBankDetails";
+import AddEmployeeSalaryDetails from "./pages/admin/AddEmployeeSalaryDetails";
+import EmployeeSalaryDetails from "./pages/admin/EmployeeSalaryDetails";
+import EmployeeBankDetails from "./pages/admin/EmployeeBankDetails";
 
 // Admin forms
 import AddAdminForm from "./components/users/AddAdminForm";
 import AddClientForm from "./components/users/AddClientForm";
 import AddEmployeeForm from "./components/users/AddEmployeeForm";
+import AddProjectForm from "./pages/admin/AddProjectForm";
 
-// HR
 import HrLayout from "./layout/hr/HrLayout";
 import HrDashboard from "./pages/HrDashboard";
 
@@ -60,13 +70,69 @@ export default function App() {
         }
       >
         <Route index element={<AdminDashboard />} />
-
         <Route path="user-lists" element={<UserLists />} />
         <Route
           path="user-lists/clients/:clientId"
           element={<ClientDetails />}
         />
-
+        <Route
+          path="user-lists/employees/:employeeId"
+          element={<EmployeeDetails />}
+        />
+        <Route path="user-lists/hrs/:hrId" element={<HrDetails />} />
+        <Route
+          path="user-lists/managers/:managerId"
+          element={<ManagerDetails />}
+        />
+        <Route
+          path="user-lists/clients/:clientId/add-project"
+          element={<AddProjectForm />}
+        />
+        <Route
+          path="user-lists/clients/:clientId/projects"
+          element={<ClientProjectList />}
+        />
+        <Route
+          path="user-lists/clients/:clientId/projects/:projectId"
+          element={<ProjectDetails />}
+        />
+        <Route
+          path="user-lists/employees/:employeeId/add-bank-details"
+          element={<AddEmployeeBankDetails />}
+        />
+        <Route
+          path="user-lists/employees/:employeeId/add-salary-details"
+          element={<AddEmployeeSalaryDetails />}
+        />
+        //......................
+        {/* EMPLOYEE TABS */}
+        <Route
+          path="user-lists/employees/:employeeId/salary"
+          element={<EmployeeSalaryDetails />}
+        />
+        <Route
+          path="user-lists/employees/:employeeId/bank"
+          element={<EmployeeBankDetails />}
+        />
+        {/* HR TABS */}
+        <Route
+          path="user-lists/hrs/:hrId/salary"
+          element={<EmployeeSalaryDetails />}
+        />
+        <Route
+          path="user-lists/hrs/:hrId/bank"
+          element={<EmployeeBankDetails />}
+        />
+        {/* MANAGER TABS */}
+        <Route
+          path="user-lists/managers/:managerId/salary"
+          element={<EmployeeSalaryDetails />}
+        />
+        <Route
+          path="user-lists/managers/:managerId/bank"
+          element={<EmployeeBankDetails />}
+        />
+        //...................................
         <Route path="users" element={<UserManagement />}>
           <Route path="add-admin" element={<AddAdminForm />} />
           <Route

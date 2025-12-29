@@ -1,17 +1,21 @@
-//src/pages/admin/ClientActionTabs.jsx
+// src/components/admin/ManagerActionTabs.jsx
 import { NavLink, useParams } from "react-router-dom";
 
-export default function ClientActionTabs() {
-  const { clientId } = useParams();
+export default function HrActionTabs() {
+  const { hrId } = useParams();
 
   const tabs = [
     {
-      label: "ADD PROJECT",
-      path: `/admin/user-lists/clients/${clientId}/add-project`,
+      label: "PROFILE",
+      path: `/admin/user-lists/hrs/${hrId}`,
     },
     {
-      label: "PROJECT LIST",
-      path: `/admin/user-lists/clients/${clientId}/projects`,
+      label: "SALARY",
+      path: `/admin/user-lists/hrs/${hrId}/salary`,
+    },
+    {
+      label: "BANK",
+      path: `/admin/user-lists/hrs/${hrId}/bank`,
     },
   ];
 
