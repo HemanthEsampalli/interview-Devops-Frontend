@@ -101,6 +101,10 @@ export default function App() {
           element={<AddEmployeeBankDetails />}
         />
         <Route
+          path="user-lists/employees/:employeeId/update-bank-details"
+          element={<AddEmployeeBankDetails />}
+        />
+        <Route
           path="user-lists/employees/:employeeId/add-salary-details"
           element={<AddEmployeeSalaryDetails />}
         />
