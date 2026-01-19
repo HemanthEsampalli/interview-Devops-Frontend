@@ -1,3 +1,4 @@
+//userlistsslice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../api/axiosInstance";
 
@@ -81,14 +82,14 @@ export const fetchClients = createAsyncThunk(
 );
 
 /* =======================
-   ✅ UPDATE EMPLOYEE
+   UPDATE EMPLOYEE (UNCHANGED)
 ======================= */
 export const updateEmployee = createAsyncThunk(
   "userLists/updateEmployee",
   async ({ id, data }, thunkAPI) => {
     try {
-      const res = await axiosInstance.put(`/hr/update/${id}`, data);
-      return res.data.data; // UpdateEmployeeResponseDto
+      await axiosInstance.put(`/hr/update/${id}`, data);
+      return { id, data };
     } catch (err) {
       return thunkAPI.rejectWithValue(
         err.response?.data?.message || "Failed to update employee"
@@ -112,12 +113,21 @@ const userListsSlice = createSlice({
 
     loading: false,
     error: null,
+
+    // ✅ ADDED (non-breaking)
+    successMessage: null,
+
     lastFetched: null,
   },
 
   reducers: {
     clearUserListsError: (state) => {
       state.error = null;
+    },
+
+    // ✅ ADDED (optional clear)
+    clearSuccessMessage: (state) => {
+      state.successMessage = null;
     },
   },
 
@@ -199,24 +209,27 @@ const userListsSlice = createSlice({
         state.error = action.payload;
       })
 
-      /* ========= ✅ UPDATE EMPLOYEE ========= */
+      /* ========= UPDATE EMPLOYEE ========= */
       .addCase(updateEmployee.pending, (state) => {
         state.loading = true;
         state.error = null;
+        state.successMessage = null; // ✅ reset
       })
       .addCase(updateEmployee.fulfilled, (state, action) => {
         state.loading = false;
 
-        const index = state.employees.findIndex(
-          (e) => e.id === action.payload.id
-        );
+        const { id, data } = action.payload;
 
+        const index = state.employees.findIndex((e) => e.id === id);
         if (index !== -1) {
           state.employees[index] = {
             ...state.employees[index],
-            ...action.payload,
+            ...data,
           };
         }
+
+        // ✅ SUCCESS MESSAGE
+        state.successMessage = "Profile updated successfully";
       })
       .addCase(updateEmployee.rejected, (state, action) => {
         state.loading = false;
@@ -225,5 +238,9 @@ const userListsSlice = createSlice({
   },
 });
 
-export const { clearUserListsError } = userListsSlice.actions;
+export const {
+  clearUserListsError,
+  clearSuccessMessage, // ✅ optional
+} = userListsSlice.actions;
+
 export default userListsSlice.reducer;

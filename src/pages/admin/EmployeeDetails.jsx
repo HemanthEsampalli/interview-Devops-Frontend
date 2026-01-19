@@ -1,8 +1,9 @@
+//employeedetails
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useState, useEffect } from "react";
 import EmployeeActionTabs from "../../components/admin/EmployeeActionTabs";
-import { updateEmployee } from "../../store/userListsSlice"; // ✅ CORRECT IMPORT
+import { updateEmployee } from "../../store/userListsSlice";
 
 export default function EmployeeDetails() {
   const { employeeId } = useParams();
@@ -17,6 +18,9 @@ export default function EmployeeDetails() {
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState(null);
+
+  // ✅ ADDED (local success message only)
+  const [successMsg, setSuccessMsg] = useState("");
 
   /* ================= SYNC FORM WITH REDUX ================= */
   useEffect(() => {
@@ -51,6 +55,12 @@ export default function EmployeeDetails() {
         })
       ).unwrap();
 
+      // ✅ SUCCESS MESSAGE
+      setSuccessMsg("Profile updated successfully");
+
+      // auto-hide after 2 sec
+      setTimeout(() => setSuccessMsg(""), 2000);
+
       setEditMode(false);
     } catch (err) {
       alert("Failed to update employee");
@@ -58,7 +68,7 @@ export default function EmployeeDetails() {
   };
 
   const handleCancel = () => {
-    setFormData(employee); // reset changes
+    setFormData(employee);
     setEditMode(false);
   };
 
@@ -68,6 +78,13 @@ export default function EmployeeDetails() {
 
       <div className="p-6 space-y-6">
         <Header title="Employee Profile" onBack={() => navigate(-1)} />
+
+        {/* ✅ SUCCESS MESSAGE UI */}
+        {successMsg && (
+          <div className="p-3 bg-green-100 text-green-700 rounded">
+            {successMsg}
+          </div>
+        )}
 
         <Card>
           {editMode ? (
