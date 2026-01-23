@@ -1,7 +1,9 @@
+//src/pages/HrDashboard.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHrProfile } from "../store/hrSlice";
 import AttendanceCard from "../components/AttendanceCard";
+import ViewDailyReport from "./ViewDailyReport";
 
 export default function HrDashboard() {
   const dispatch = useDispatch();
@@ -68,14 +70,17 @@ export default function HrDashboard() {
             </div>
           </div>
 
-          {/* 🔹 ATTENDANCE (ADDED – NO CHANGE TO EXISTING UI) */}
+          {/* 🔹 ATTENDANCE */}
           <div className="mt-6">
             <AttendanceCard employeeId={profile.id} />
           </div>
+
+          {/* 🔹 DAILY REPORT */}
+          <ViewDailyReport />
         </>
       )}
 
-      {/* FUTURE MODULE CARDS (UNCHANGED) */}
+      {/* FUTURE MODULE CARDS */}
       <div className="grid md:grid-cols-3 gap-6 mt-10">
         <div className="bg-white p-6 shadow rounded-lg hover:shadow-lg cursor-pointer transition border">
           <h3 className="text-lg font-semibold text-[#0D243C]">Employees</h3>
