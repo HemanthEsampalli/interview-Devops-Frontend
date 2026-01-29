@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHrProfile } from "../store/hrSlice";
@@ -6,6 +7,8 @@ import AttendanceCard from "../components/AttendanceCard";
 export default function HrDashboard() {
   const dispatch = useDispatch();
   const { profile, loading, error } = useSelector((s) => s.hr);
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     dispatch(fetchHrProfile());
@@ -77,7 +80,9 @@ export default function HrDashboard() {
 
       {/* FUTURE MODULE CARDS (UNCHANGED) */}
       <div className="grid md:grid-cols-3 gap-6 mt-10">
-        <div className="bg-white p-6 shadow rounded-lg hover:shadow-lg cursor-pointer transition border">
+        <div 
+        onClick={() => navigate("/hr/employees")}
+        className="bg-white p-6 shadow rounded-lg hover:shadow-lg cursor-pointer transition border">
           <h3 className="text-lg font-semibold text-[#0D243C]">Employees</h3>
           <p className="text-gray-500 text-sm mt-2">
             Manage employees, profiles & attendance.
