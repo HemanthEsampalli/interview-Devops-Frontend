@@ -26,6 +26,8 @@ import EmployeeSalaryDetails from "./pages/admin/EmployeeSalaryDetails";
 import EmployeeBankDetails from "./pages/admin/EmployeeBankDetails";
 import EmployeeProjects from "./pages/admin/EmployeeProjects";
 import EmployeeLeaves from "./pages/admin/EmployeeLeaves";
+import AdminJobsPage from "./components/admin/AdminJobsPage";
+import AdminJobDetailPage from "./components/AdminJobDetailPage"
 
 // ✅ NEW (GLOBAL PROJECT LIST)
 import ProjectList from "./pages/admin/projects/ProjectList";
@@ -78,6 +80,11 @@ export default function App() {
       >
         <Route index element={<AdminDashboard />} />
         <Route path="user-lists" element={<UserLists />} />
+        <Route path="employees" element={<UserLists userType="employees" />} />
+        <Route path="managers" element={<UserLists userType="managers" />} />
+        <Route path="hrs" element={<UserLists userType="hrs" />} />
+        <Route path="admins" element={<UserLists userType="admins" />} />
+        <Route path="clients" element={<UserLists userType="clients" />} />
         <Route
           path="user-lists/clients/:clientId"
           element={<ClientDetails />}
@@ -177,7 +184,12 @@ export default function App() {
 <Route path="projects" element={<ProjectList />} /> {/* Full-page project list */}
 <Route path="projects/:projectId" element={<ProjectDetails />} /> {/* Details page */}
 
+
+        {/* Jobs */}
+        <Route path="jobs" element={<AdminJobsPage />} />
+        <Route path="jobs/:jobId" element={<AdminJobDetailPage />} />
       </Route>
+      
 
       {/* ================= HR ================= */}
       <Route
