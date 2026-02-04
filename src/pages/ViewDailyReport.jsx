@@ -15,18 +15,26 @@ export default function ViewDailyReport() {
   async function fetchLatestReport(openImmediately = false) {
     try {
       const res = await axiosInstance.get("/hr/dailyReport/url");
+      let path = res.data?.data;
 
-      if (!res.data?.data) {
+      if (!path) {
         setReportUrl("");
         return;
       }
+     
+        // ✅ FIX: Repair missing colon if backend sends "https//..."
+      if (path.startsWith("https//")) {
+          path = path.replace("https//", "https://");
+      }
+      
+       // ✅ FIX: If it starts with http, don't add BASE_URL
+      const finalUrl = path.startsWith("http") ? path : `${BASE_URL}${path}`;
 
-      const relativePath = res.data.data;
-
-      // ✅ Hard cache buster
-      const freshUrl = `${BASE_URL}${relativePath}?ts=${Date.now()}&rnd=${Math.random()}`;
+      // ✅ Cache buster (fixed to handle existing params)
+      const freshUrl = `${finalUrl}${finalUrl.includes('?') ? '&' : '?'}ts=${Date.now()}`;
 
       setReportUrl(freshUrl);
+
 
       if (openImmediately) {
         window.open(freshUrl, "_blank", "noopener,noreferrer");
@@ -69,6 +77,26 @@ export default function ViewDailyReport() {
     fetchLatestReport(false);
   }, []);
 
+
+  const handleDownload = () => {
+  if (!reportUrl) return;
+
+  // ✅ Force Download Logic:
+  // We insert 'fl_attachment' after '/upload/' in the URL.
+  // This tells Cloudinary to set 'Content-Disposition: attachment'
+  const downloadUrl = reportUrl.replace('/upload/', '/upload/fl_attachment/');
+
+  // Create a temporary hidden link and click it
+  const link = document.createElement('a');
+  link.href = downloadUrl;
+  // link.download is a backup, but fl_attachment does the real work
+  link.setAttribute('download', 'Daily_Report.pdf'); 
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+
   return (
     <div className="bg-white shadow-lg rounded-xl p-6 border border-gray-100 mt-6">
       <h2 className="text-xl font-semibold text-[#0D243C] mb-4">
@@ -104,14 +132,13 @@ export default function ViewDailyReport() {
             </button>
 
             {/* Download Always Latest */}
-            <a
-              href={reportUrl}
-              download
+            <button
+              onClick={handleDownload}
               className="px-5 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center gap-2"
             >
               <Download size={20} />
               Download Latest
-            </a>
+            </button>
           </div>
         </div>
       ) : (
